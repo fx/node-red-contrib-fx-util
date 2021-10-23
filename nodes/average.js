@@ -7,6 +7,12 @@ module.exports = function (RED) {
     const node = this;
     const context = node.context();
 
+    node.status({
+      fill: "grey",
+      shape: "dot",
+      text: "?",
+    });
+
     node.on("input", async (msg) => {
       const { topic, payload } = msg;
       if (!topic || topic == "") return;
@@ -18,6 +24,12 @@ module.exports = function (RED) {
       context.set("values", values);
 
       const average = sum(Object.values(values)) / Object.keys(values).length;
+
+      node.status({
+        fill: "grey",
+        shape: "dot",
+        text: `⌀ ${average}`,
+      });
       node.send({ payload: average });
     });
   }
